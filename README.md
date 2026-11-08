@@ -8,10 +8,11 @@ End-to-end, reproducible pipeline for an e-commerce recommender:
 ## Quick start
 Requires Python 3.10+.
 ```bash
-git clone <your-repo-url> && cd recommendation-pipeline
+git clone https://github.com/sunitbits/reco_pipeline.git && cd reco_pipeline
 python -m venv venv && source venv/bin/activate      # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 python -m src.orchestration.run_pipeline             # full run, about 15 s (same as: python main.py)
+python -m src.training.predict U0001 --k 10          # recommendations for one user (feature store + trained model)
 pytest -q                                            # unit tests (run the pipeline once first)
 mlflow ui --backend-store-uri sqlite:///mlflow.db    # experiment tracking UI at http://127.0.0.1:5000
 ```
@@ -34,7 +35,7 @@ recommendation-pipeline/
 │   ├── preparation/prepare.py           clean, dedupe, impute, time-based split
 │   ├── transformation/transform.py      user activity, item popularity, user-item matrix
 │   ├── features/feature_store.py        feature store + registry + catalog
-│   ├── training/{models,train,tracking}.py   popularity + hybrid MF, MLflow tracking
+│   ├── training/{models,train,tracking,predict}.py   popularity + hybrid MF, MLflow tracking, single-user prediction
 │   ├── evaluation/evaluate.py           P/R/NDCG@10, coverage, diversity, RMSE/MAE
 │   └── orchestration/{run_pipeline,make_diagram}.py
 ├── dags/reco_dag.py             Airflow DAG (same task graph)
@@ -44,12 +45,14 @@ recommendation-pipeline/
 ```
 
 ## Orchestration
+Scheduling: the Airflow DAG is set to `@daily`. Without Airflow, schedule the same command with cron (`0 2 * * * cd /path/reco_pipeline && venv/bin/python main.py`) or Windows Task Scheduler.
+
 `run_pipeline.py` orders tasks with a topological sort (`graphlib`), retries failures, logs to `reports/pipeline.log`
 and writes `reports/run_status.json`. Tasks communicate only through files, so each one can be re-run alone.
 ```
 ingest -> validate -> prepare -> [transform, build_features] -> [train_popularity, train_hybrid] -> evaluate
 ```
-`dags/reco_dag.py` builds the identical graph for Apache Airflow (`PYTHONPATH` = repo root). Screenshots of a successful run: `reports/screenshots/01_*` and `02_*`.
+`dags/reco_dag.py` builds the identical graph for Apache Airflow (`PYTHONPATH` = repo root). Evidence of a successful run: `reports/screenshots/01_*` and `02_*` (terminal captures from the first run, before the folders were reorganised, so the command shown is the old `reco.run_pipeline`) and `09_run_summary.png` (rendered from the current run log).
 
 ## Results (K = 10, time-based test set, 1,360 evaluated users)
 | model      |   precision@10 |   recall@10 |   ndcg@10 |   coverage |   diversity |   rmse |    mae |   n_eval_users |

@@ -39,3 +39,12 @@ def test_feature_store_cold_start_defaults():
     fs = FeatureStore().load()
     f = fs.get_user_features(["UNKNOWN_USER"])
     assert f.preferred_category.iloc[0] == "unknown" and not f.isna().any().any()
+
+
+@pytest.mark.skipif(not (C.MODELS / "hybrid_mf.pkl").exists(), reason="run the pipeline first")
+def test_predict_known_and_cold_start_user():
+    from src.training.predict import recommend
+    used, df = recommend("U0001", "hybrid_mf", 5)
+    assert used == "hybrid_mf" and len(df) == 5
+    used, df = recommend("NEW_USER", "hybrid_mf", 5)
+    assert "cold-start" in used and len(df) == 5

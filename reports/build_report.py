@@ -7,6 +7,8 @@ from reportlab.lib.units import cm
 from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 from configs import settings as C
 
+from PIL import Image as PILImage
+RUN_W, RUN_H = PILImage.open(C.REP / "screenshots/09_run_summary.png").size
 ss = getSampleStyleSheet()
 B = ParagraphStyle("B", parent=ss["Normal"], fontSize=9, leading=12)
 H = ParagraphStyle("H", parent=ss["Heading2"], fontSize=11.5, spaceBefore=6, spaceAfter=3, textColor=colors.HexColor("#1e3a8a"))
@@ -76,8 +78,8 @@ st += [Paragraph(f"<b>Model comparison</b> (K = 10, {int(h['n_eval_users']):,} t
                  f"recommends a much wider part of the catalogue (coverage {p['coverage']:.3f} to {h['coverage']:.3f}) and predicts ratings better "
                  f"(RMSE {p['rmse']:.3f} to {h['rmse']:.3f}). The price is slightly lower diversity, because its lists lean on popular items in the preferred category.", B),
        Spacer(1, 4),
-       Image(str(C.REP / "screenshots/01_pipeline_run_terminal.png"), width=16 * cm, height=16 * cm * 412 / 1515),
-       Paragraph("Figure 2. Successful end-to-end run: all eight tasks finished with status ok (MLflow screenshots are in reports/screenshots).", CAP)]
+       Image(str(C.REP / "screenshots/09_run_summary.png"), width=13.5 * cm, height=13.5 * cm * RUN_H / RUN_W),
+       Paragraph("Figure 2. Successful end-to-end run, rendered from run_status.json and model_comparison.csv (raw terminal and MLflow screenshots are in reports/screenshots).", CAP)]
 
 st += [Paragraph("5. Limitations and future work", H)]
 st += bullets([
