@@ -1,0 +1,26 @@
+2026-11-07 12:36:31,926 INFO pipeline: >>> ingest (attempt 1)
+2026-11-07 12:36:34,126 INFO src.ingestion.ingest: ingested users        rows=1505
+2026-11-07 12:36:34,128 INFO src.ingestion.ingest: ingested items        rows=603
+2026-11-07 12:36:34,179 INFO src.ingestion.ingest: ingested interactions rows=58715
+2026-11-07 12:36:34,181 INFO pipeline: >>> validate (attempt 1)
+2026-11-07 12:36:34,515 INFO src.validation.validate: validate users        in=1505 ok=1493 rejected=12 {'duplicate_user_id': 5, 'age_out_of_range': 4, 'invalid_signup_date': 3}
+2026-11-07 12:36:34,515 INFO src.validation.validate: validate items        in=603 ok=591 rejected=12 {'missing_category': 4, 'duplicate_item_id': 3, 'non_positive_price': 3, 'invalid_type_price': 2}
+2026-11-07 12:36:34,515 INFO src.validation.validate: validate interactions in=58715 ok=54212 rejected=4503 {'orphan_item_id': 1706, 'duplicate_interaction': 562, 'orphan_user_id': 470, 'missing_rating': 295, 'rating_out_of_range': 295, 'invalid_timestamp_format': 295, 'timestamp_out_of_range': 295, 'invalid_type_rating': 293, 'missing_user_id': 292}
+2026-11-07 12:36:34,516 INFO pipeline: >>> prepare (attempt 1)
+2026-11-07 12:36:34,620 INFO src.preparation.prepare: prepare: removed 0 repeat user-item rows
+2026-11-07 12:36:35,095 INFO src.preparation.prepare: prepare split: {'cutoff': '2024-09-21 18:26:34', 'train_rows': 43369, 'test_rows': 10843, 'test_rows_dropped_cold_start': 0}
+2026-11-07 12:36:35,145 INFO pipeline: >>> transform (attempt 1)
+2026-11-07 12:36:35,590 INFO src.transformation.transform: matrix (1493, 591) density=4.915%
+2026-11-07 12:36:35,590 INFO pipeline: >>> build_features (attempt 1)
+2026-11-07 12:36:35,689 INFO src.features.feature_store: features: users=1493 items=591 user_cat=9578
+2026-11-07 12:36:35,689 INFO pipeline: >>> train_popularity (attempt 1)
+2026-11-07 12:36:37,529 INFO src.training.train: trained popularity in 0.0s (run bf64088bb87945c8bc2149ed8542ed98)
+2026-11-07 12:36:37,529 INFO pipeline: >>> train_hybrid (attempt 1)
+2026-11-07 12:36:37,606 INFO src.training.train: trained hybrid_mf in 0.0s (run 64c74018ac3f4aa489e5aa0f3ef0ff74)
+2026-11-07 12:36:37,606 INFO pipeline: >>> evaluate (attempt 1)
+2026-11-07 12:36:37,880 INFO src.evaluation.evaluate: 
+            precision@10  recall@10  ndcg@10  coverage  diversity    rmse     mae  n_eval_users
+model                                                                                          
+popularity        0.0983     0.2094   0.1897    0.0626     0.9348  0.8890  0.7263        1360.0
+hybrid_mf         0.1176     0.2230   0.2138    0.1540     0.8824  0.8335  0.6578        1360.0
+2026-11-07 12:36:37,881 INFO pipeline: pipeline finished: {'ingest': 'ok', 'validate': 'ok', 'prepare': 'ok', 'transform': 'ok', 'build_features': 'ok', 'train_popularity': 'ok', 'train_hybrid': 'ok', 'evaluate': 'ok'}

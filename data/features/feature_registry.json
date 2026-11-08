@@ -1,0 +1,104 @@
+{
+  "ref_time": "2024-09-21 18:14:54",
+  "defaults": {
+    "global_mean": 4.008370033895178,
+    "user_activity_count": 0,
+    "user_avg_rating": 4.008370033895178,
+    "user_rating_std": 0.0,
+    "user_positive_ratio": 0.7098618829117572,
+    "days_since_last_interaction": 9999,
+    "user_tenure_days": 0
+  },
+  "registry": {
+    "user_activity_count": {
+      "entity": "user",
+      "dtype": "int",
+      "description": "Number of training interactions"
+    },
+    "user_avg_rating": {
+      "entity": "user",
+      "dtype": "float",
+      "description": "Mean rating given by the user"
+    },
+    "user_rating_std": {
+      "entity": "user",
+      "dtype": "float",
+      "description": "Std-dev of the user's ratings (0 if single rating)"
+    },
+    "user_positive_ratio": {
+      "entity": "user",
+      "dtype": "float",
+      "description": "Share of the user's ratings >= 4"
+    },
+    "preferred_category": {
+      "entity": "user",
+      "dtype": "str",
+      "description": "Category with most interactions"
+    },
+    "days_since_last_interaction": {
+      "entity": "user",
+      "dtype": "int",
+      "description": "Days from user's last interaction to ref_time"
+    },
+    "user_tenure_days": {
+      "entity": "user",
+      "dtype": "int",
+      "description": "Days from signup to ref_time"
+    },
+    "item_popularity": {
+      "entity": "item",
+      "dtype": "int",
+      "description": "Number of training interactions"
+    },
+    "item_positive_count": {
+      "entity": "item",
+      "dtype": "int",
+      "description": "Number of ratings >= 4"
+    },
+    "item_popularity_pct": {
+      "entity": "item",
+      "dtype": "float",
+      "description": "Percentile rank of popularity (1 = most popular)"
+    },
+    "item_avg_rating": {
+      "entity": "item",
+      "dtype": "float",
+      "description": "Bayesian-smoothed mean rating (m=10) toward global mean"
+    },
+    "item_days_since_last_interaction": {
+      "entity": "item",
+      "dtype": "int",
+      "description": "Days since the item was last interacted with"
+    },
+    "category / brand / price": {
+      "entity": "item",
+      "dtype": "str/float",
+      "description": "Item content attributes"
+    },
+    "user_category_avg_rating": {
+      "entity": "user x category",
+      "dtype": "float",
+      "description": "User's mean rating within a category"
+    },
+    "user_category_count": {
+      "entity": "user x category",
+      "dtype": "int",
+      "description": "User's interactions within a category"
+    },
+    "user_category_affinity (derived)": {
+      "entity": "interaction",
+      "dtype": "float",
+      "description": "user_category_avg_rating for the item's category, else user_avg_rating"
+    },
+    "rating_gap (derived)": {
+      "entity": "interaction",
+      "dtype": "float",
+      "description": "item_avg_rating - user_avg_rating"
+    },
+    "is_preferred_category (derived)": {
+      "entity": "interaction",
+      "dtype": "int",
+      "description": "1 if item category == user's preferred_category"
+    }
+  }
+}

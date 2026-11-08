@@ -1,0 +1,10 @@
+pandas>=2.0
+numpy
+scipy
+scikit-learn
+mlflow
+matplotlib
+tabulate
+pytest
+reportlab        # only for reports/build_report.py
+# optional: apache-airflow (see dags/reco_dag.py)

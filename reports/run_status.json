@@ -1,0 +1,34 @@
+{
+  "ingest": {
+    "status": "ok",
+    "seconds": 2.26
+  },
+  "validate": {
+    "status": "ok",
+    "seconds": 0.33
+  },
+  "prepare": {
+    "status": "ok",
+    "seconds": 0.63
+  },
+  "transform": {
+    "status": "ok",
+    "seconds": 0.45
+  },
+  "build_features": {
+    "status": "ok",
+    "seconds": 0.1
+  },
+  "train_popularity": {
+    "status": "ok",
+    "seconds": 1.84
+  },
+  "train_hybrid": {
+    "status": "ok",
+    "seconds": 0.08
+  },
+  "evaluate": {
+    "status": "ok",
+    "seconds": 0.28
+  }
+}

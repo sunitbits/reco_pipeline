@@ -1,0 +1,6 @@
+{
+  "cutoff": "2024-09-21 18:26:34",
+  "train_rows": 43369,
+  "test_rows": 10843,
+  "test_rows_dropped_cold_start": 0
+}

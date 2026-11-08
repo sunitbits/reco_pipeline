@@ -1,0 +1,47 @@
+{
+  "warnings": {
+    "users_missing_age": 8
+  },
+  "tables": {
+    "users": {
+      "input_rows": 1505,
+      "valid_rows": 1493,
+      "rejected_rows": 12,
+      "reject_rate": 0.008,
+      "reasons": {
+        "duplicate_user_id": 5,
+        "age_out_of_range": 4,
+        "invalid_signup_date": 3
+      }
+    },
+    "items": {
+      "input_rows": 603,
+      "valid_rows": 591,
+      "rejected_rows": 12,
+      "reject_rate": 0.0199,
+      "reasons": {
+        "missing_category": 4,
+        "duplicate_item_id": 3,
+        "non_positive_price": 3,
+        "invalid_type_price": 2
+      }
+    },
+    "interactions": {
+      "input_rows": 58715,
+      "valid_rows": 54212,
+      "rejected_rows": 4503,
+      "reject_rate": 0.0767,
+      "reasons": {
+        "orphan_item_id": 1706,
+        "duplicate_interaction": 562,
+        "orphan_user_id": 470,
+        "missing_rating": 295,
+        "rating_out_of_range": 295,
+        "invalid_timestamp_format": 295,
+        "timestamp_out_of_range": 295,
+        "invalid_type_rating": 293,
+        "missing_user_id": 292
+      }
+    }
+  }
+}
